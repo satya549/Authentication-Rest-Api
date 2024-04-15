@@ -5,35 +5,35 @@ const UserSchema = new mongoose.Schema({
         type: String,
         reqquired: true
     },
-    Email:{type:String, 
-        required:true,
-        select:false
+    email: {
+        type: String, 
+        required: true
     },
-    authentication:{
+    authentication: {
         password:{
-            type:String,
-            required:true,
-            select:false
-        },
-        salt:{
-            type:String,
-            select:false
-        },
-        sessionToken:{
             type: String,
+            required: true,
             select: false
         },
+        salt: {
+            type: String,
+            select:false
+        },
+        sessionToken: {
+            type: String,
+            select: false
+        }
     }
 });
 
-export const UserModel = mongoose.model('User',UserSchema);
+export const UserModel = mongoose.model('User', UserSchema);
 
-export const getUsers =() => UserModel.find();
-export const getUsersbyEmail = (email: string) => UserModel.findOne({email});
-export const getUsersbySessionToken =(sessionToken: string)=> UserModel.findOne({
+export const getUsers = () => UserModel.find();
+export const getUserbyEmail = (email: string) => UserModel.findOne({ email });
+export const getUserbySessionToken =(sessionToken: string) => UserModel.findOne({
     'authentication.sessionToken': sessionToken,
 });
 export const getUserById = (id: string) => UserModel.findById(id);
-export const createUser =(values: Record<string, any>) => new UserModel(values).save().then((user)=>user.toObject());
-export const deleteuserById = (id:string)=> UserModel.findOneAndDelete({_id:id});
-export const updateuserById = (id:string, values:Record<string, any>)=> UserModel.findByIdAndUpdate(id,values);
+export const createUser =(values: Record<string, any>) => new UserModel(values).save().then((user) => user.toObject());
+export const deleteUserById = (id:string) => UserModel.findOneAndDelete({ _id: id });
+export const updateUserById = (id:string, values: Record<string, any>) => UserModel.findByIdAndUpdate(id, values);

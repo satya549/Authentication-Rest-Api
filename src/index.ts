@@ -1,30 +1,41 @@
 import express from 'express';
 import http from 'http';
-import bodyparser from 'body-parser';
-import cookieparser from 'cookie-parser';
+import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
 import compression from 'compression';
 import cors from 'cors';
 import mongoose from 'mongoose';
 
+import router from './router'
 const app = express();
 
 app.use(cors({
     credentials: true,
 }));
 
+// app.use(express.json());
+// app.use("/auth", router);
+
+
 app.use(compression());
-app.use(cookieparser());
-app.use(bodyparser.json());
+app.use(cookieParser());
+app.use(bodyParser.json());
 
 const server = http.createServer(app);
 
 server.listen(3001, () =>{
-    console.log('Server running on http://localhost:3001/')
+    console.log('Server running on http://localhost:3001')
 });
 
 
-const MONGO_URL ='mongodb+srv://satyadev:satyadev@cluster0.bttwlxy.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
+// const MONGO_URL ='mongodb+srv://satyadev:satyadev@cluster0.bttwlxy.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
+// const MONGO_URL ='mongodb+srv://satyadev:satyadev@cluster0.v6uxiwd.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
+const MONGO_URL ='mongodb+srv://satyadev:satyadev@cluster0.byrp7cl.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
 
 mongoose.Promise = Promise;
 mongoose.connect(MONGO_URL);
 mongoose.connection.on('error',(error:Error) => console.log(error));
+
+
+
+app.use('/', router());
